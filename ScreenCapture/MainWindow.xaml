@@ -7,8 +7,25 @@
         xmlns:local="clr-namespace:ScreenCapture"
         mc:Ignorable="d"
         Title="Screen Capture" Height="600" Width="600" AllowsTransparency="True" Background="Transparent" Topmost="True" BorderThickness="3"
-        WindowTitleBrush="Teal">
+        WindowTitleBrush="LightSeaGreen" BorderBrush="LightSeaGreen">
+    
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="25"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Background="White">
+            
+        </Grid>
+
+        <Grid Grid.Row="1">
+
+        </Grid>
+
+        <Grid Grid.Row="2" Background="LightSeaGreen">
+
+        </Grid>
     </Grid>
 </Mah:MetroWindow>

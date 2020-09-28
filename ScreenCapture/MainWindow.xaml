@@ -20,19 +20,39 @@
         
 
         <Grid Grid.Row="0" Background="Gainsboro">
-            
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="20"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
+                <TextBlock Text="Width : "/>
+                <TextBox Text="{Binding WindowWidth}" Width="50" Margin="0 0 5 0"/>
+                <TextBlock Text="X" Margin="0 0 5 0"/>
+                <TextBlock Text="Height : "/>
+                <TextBox Text="{Binding WindowHeight}" Width="50"/>
+            </StackPanel>
         </Grid>
 
-        <Grid Grid.Row="1" Background="LightSeaGreen">
-
-        </Grid>
+        <Grid Grid.Row="1" Background="LightSeaGreen"/>
 
         <Grid Grid.Row="2">
             
         </Grid>
 
         <StatusBar Grid.Row="3">
-
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock Text="X : "/>
+                <TextBlock Text="{Binding LocationX}" Width="Auto" Margin="0 0 5 0"/>
+                <TextBlock Text="Y : "/>
+                <TextBlock Text="{Binding LocationY}" Width="Auto" Margin="0 0 20 0"/>
+                <TextBlock Text="Width : "/>
+                <TextBlock Text="{Binding WindowWidth}" Width="Auto" Margin="0 0 5 0"/>
+                <TextBlock Text="Height : "/>
+                <TextBlock Text="{Binding WindowHeight}" Width="Auto"/>
+            </StackPanel>
         </StatusBar>
     </Grid>
 </Mah:MetroWindow>

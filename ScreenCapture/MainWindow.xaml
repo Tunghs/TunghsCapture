@@ -12,22 +12,27 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
+            <RowDefinition Height="3"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
         
         
 
-        <Grid Grid.Row="0" Background="White">
+        <Grid Grid.Row="0" Background="Gainsboro">
             
         </Grid>
 
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1" Background="LightSeaGreen">
 
         </Grid>
 
-        <Grid Grid.Row="2" Background="LightSeaGreen">
-
+        <Grid Grid.Row="2">
+            
         </Grid>
+
+        <StatusBar Grid.Row="3">
+
+        </StatusBar>
     </Grid>
 </Mah:MetroWindow>

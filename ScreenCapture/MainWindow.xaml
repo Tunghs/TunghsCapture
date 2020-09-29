@@ -4,55 +4,23 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:Mah="http://metro.mahapps.com/winfx/xaml/controls"
-        xmlns:local="clr-namespace:ScreenCapture"
+        xmlns:View="clr-namespace:ScreenCapture.View"
+        xmlns:ViewModel="clr-namespace:ScreenCapture.ViewModel"
         mc:Ignorable="d"
-        Title="Screen Capture" Height="600" Width="600" AllowsTransparency="True" Background="Transparent" Topmost="True" BorderThickness="3"
-        WindowTitleBrush="LightSeaGreen" BorderBrush="LightSeaGreen">
-    
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="3"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="25"/>
-        </Grid.RowDefinitions>
-        
-        
+        Title="Screen Capture"
+        Height="{Binding WindowHeight, Mode=TwoWay}" 
+        Width="{Binding WindowWidth, Mode=TwoWay}" 
+        AllowsTransparency="True" 
+        Background="Transparent" 
+        Topmost="True" 
+        Left="{Binding WindowLeft, Mode=OneWayToSource}"
+        Top="{Binding WindowTop, Mode=OneWayToSource}"
+        WindowTitleBrush="LightSeaGreen" 
+        BorderBrush="LightSeaGreen" WindowStyle="None" ResizeMode="CanResizeWithGrip" WindowStartupLocation="CenterScreen" ShowMaxRestoreButton="False">
 
-        <Grid Grid.Row="0" Background="Gainsboro">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="200"/>
-                <ColumnDefinition Width="10"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="20"/>
-            </Grid.ColumnDefinitions>
+    <Window.DataContext>
+        <ViewModel:ScreenCaptureViewModel/>
+    </Window.DataContext>
 
-            <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
-                <TextBlock Text="Width : "/>
-                <TextBox Text="{Binding WindowWidth}" Width="50" Margin="0 0 5 0"/>
-                <TextBlock Text="X" Margin="0 0 5 0"/>
-                <TextBlock Text="Height : "/>
-                <TextBox Text="{Binding WindowHeight}" Width="50"/>
-            </StackPanel>
-        </Grid>
-
-        <Grid Grid.Row="1" Background="LightSeaGreen"/>
-
-        <Grid Grid.Row="2">
-            
-        </Grid>
-
-        <StatusBar Grid.Row="3">
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                <TextBlock Text="X : "/>
-                <TextBlock Text="{Binding LocationX}" Width="Auto" Margin="0 0 5 0"/>
-                <TextBlock Text="Y : "/>
-                <TextBlock Text="{Binding LocationY}" Width="Auto" Margin="0 0 20 0"/>
-                <TextBlock Text="Width : "/>
-                <TextBlock Text="{Binding WindowWidth}" Width="Auto" Margin="0 0 5 0"/>
-                <TextBlock Text="Height : "/>
-                <TextBlock Text="{Binding WindowHeight}" Width="Auto"/>
-            </StackPanel>
-        </StatusBar>
-    </Grid>
+    <View:ScreenCaptureView/>
 </Mah:MetroWindow>

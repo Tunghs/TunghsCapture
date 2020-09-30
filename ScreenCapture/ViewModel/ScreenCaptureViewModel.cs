@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace ScreenCapture.ViewModel
@@ -71,6 +72,7 @@ namespace ScreenCapture.ViewModel
             PreviewTextInputCommand = new RelayCommand<TextCompositionEventArgs>(OnPreviewTextInput);
         }
 
+        #region CommandAction
         private void OnButtonClick(object param)
         {
             switch (param.ToString())
@@ -84,6 +86,9 @@ namespace ScreenCapture.ViewModel
                 case "SetSize":
                     SetSize();
                     break;
+                case "OpenSettingWindow":
+                    OpenSettingWindow();
+                    break;
             }
         }
 
@@ -96,6 +101,17 @@ namespace ScreenCapture.ViewModel
                     e.Handled = true;
                     break;
                 }
+            }
+        }
+
+        private void OpenSettingWindow()
+        {
+            SettingWindow settingWindow = new SettingWindow() { DataContext = SettingViewModel };
+            settingWindow.Owner = Application.Current.MainWindow;
+
+            if ((bool)settingWindow.ShowDialog())
+            {
+                // 참일 때 실행
             }
         }
 
@@ -117,13 +133,20 @@ namespace ScreenCapture.ViewModel
         {
             IsSettingOpen = false;
         }
-        #region CommandAction
+        #endregion
+        #endregion
+
+        #region Field
 
         #endregion
-        #endregion
+
+        public SettingViewModel SettingViewModel { get; set; }
+
         public ScreenCaptureViewModel()
         {
             InitRelayCommand();
+
+            SettingViewModel = new SettingViewModel();
         }
     }
 }

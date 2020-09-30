@@ -8,7 +8,7 @@
              xmlns:ViewModel="clr-namespace:ScreenCapture.ViewModel"
              xmlns:Mah="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="674" d:DesignWidth="606">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -28,8 +28,9 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="5"/>
                         <ColumnDefinition Width="30"/>
-                        <ColumnDefinition Width="30"/>
+                        <ColumnDefinition Width="20"/>
                         <ColumnDefinition Width="110"/>
+                        <ColumnDefinition Width="30"/>
                         <ColumnDefinition Width="30"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="5"/>
@@ -42,8 +43,11 @@
 
                     <Button Grid.Column="4" Content="Set" VerticalAlignment="Center"
                     Command="{Binding ButtonClickCommand}" CommandParameter="OpenSetting"/>
+                    
+                    <Button Grid.Column="5" Content="C" Style="{StaticResource MahApps.Styles.Button.Circle}" Height="30"
+                    Command="{Binding ButtonClickCommand}" CommandParameter="OpenSettingWindow"/>
 
-                    <StackPanel Grid.Column="5" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
+                    <StackPanel Grid.Column="6" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
                         <TextBlock Text="Width : " VerticalAlignment="Center" FontWeight="Black"/>
                         <TextBox Text="{Binding WindowWidth}" Width="50" Margin="0 0 5 0" >
                             <i:Interaction.Triggers>
@@ -74,8 +78,8 @@
 
                 <Grid Grid.Row="1" Background="LightSeaGreen"/>
 
-                <Grid Grid.Row="2">
-
+                <Grid Grid.Row="2" Background="White">
+                    <Rectangle Fill="Black"/>
                 </Grid>
             </Grid>
         </Border>

@@ -48,14 +48,14 @@ namespace ScreenCapture.ViewModel
             set { Set(ref _isSettingOpen, value); }
         }
 
-        private int _captureWidth = 600;
+        private int _captureWidth;
         public int CaptureWidth
         {
             get { return _captureWidth; }
             set { Set(ref _captureWidth, value); }
         }
 
-        private int _captureHeight = 600;
+        private int _captureHeight;
         public int CaptureHeight
         {
             get { return _captureHeight; }

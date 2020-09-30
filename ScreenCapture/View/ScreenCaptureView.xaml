@@ -7,6 +7,7 @@
              xmlns:cmd="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Platform"
              xmlns:ViewModel="clr-namespace:ScreenCapture.ViewModel"
              xmlns:Mah="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:Controls="clr-namespace:ScreenCaptureControls.Controls;assembly=ScreenCaptureControls"
              mc:Ignorable="d" 
              d:DesignHeight="674" d:DesignWidth="606">
 
@@ -49,7 +50,7 @@
 
                     <StackPanel Grid.Column="6" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
                         <TextBlock Text="Width : " VerticalAlignment="Center" FontWeight="Black"/>
-                        <TextBox Text="{Binding WindowWidth}" Width="50" Margin="0 0 5 0" >
+                        <TextBox Text="{Binding CaptureWidth}" Width="50" Margin="0 0 5 0" >
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="TextChanged">
                                     <i:InvokeCommandAction Command="{Binding TextChangedCommand}"/>
@@ -61,7 +62,7 @@
                         </TextBox>
                         <TextBlock Text="X" VerticalAlignment="Center" Margin="0 0 5 0"/>
                         <TextBlock Text="Height : " VerticalAlignment="Center" FontWeight="Black"/>
-                        <TextBox Text="{Binding WindowHeight}" Width="50">
+                        <TextBox Text="{Binding CaptureHeight}" Width="50">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="TextChanged">
                                     <i:InvokeCommandAction Command="{Binding TextChangedCommand}"/>
@@ -78,9 +79,10 @@
 
                 <Grid Grid.Row="1" Background="LightSeaGreen"/>
 
-                <Grid Grid.Row="2" Background="White">
-                    <Rectangle Fill="Black"/>
-                </Grid>
+                <Controls:GetActualSizeGrid Grid.Row="2" 
+                                            ActualWidth="{Binding CaptureWidth, Mode=TwoWay}"
+                                            ActualHeight="{Binding CaptureHeight, Mode=TwoWay}"/>
+
             </Grid>
         </Border>
         
@@ -91,9 +93,9 @@
                 <TextBlock Text="Y : "/>
                 <TextBlock Text="{Binding WindowTop}" Width="Auto" Margin="0 0 20 0"/>
                 <TextBlock Text="Width : "/>
-                <TextBlock Text="{Binding WindowWidth}" Width="Auto" Margin="0 0 5 0"/>
+                <TextBlock Text="{Binding CaptureWidth}" Width="Auto" Margin="0 0 5 0"/>
                 <TextBlock Text="Height : "/>
-                <TextBlock Text="{Binding WindowHeight}" Width="Auto"/>
+                <TextBlock Text="{Binding CaptureHeight}" Width="Auto"/>
             </StackPanel>
         </StatusBar>
     </Grid>

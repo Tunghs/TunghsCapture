@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ScreenCaptureControl.Properties
+namespace ScreenCaptureControls.Properties
 {
     
     

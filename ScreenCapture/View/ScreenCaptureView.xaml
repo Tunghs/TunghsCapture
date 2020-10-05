@@ -38,15 +38,15 @@
                     </Grid.ColumnDefinitions>
 
                     <Button Grid.Column="1" Content="C" Style="{StaticResource MahApps.Styles.Button.Circle}" Height="30"
-                    Command="{Binding ButtonClickCommand}" CommandParameter="Capture"/>
+                            Command="{Binding ButtonClickCommand}" CommandParameter="Capture"/>
 
                     <ComboBox Grid.Column="3"  VerticalAlignment="Center"/>
 
                     <Button Grid.Column="4" Content="Set" VerticalAlignment="Center"
-                    Command="{Binding ButtonClickCommand}" CommandParameter="OpenSetting"/>
+                            Command="{Binding ButtonClickCommand}" CommandParameter="OpenSetting"/>
                     
                     <Button Grid.Column="5" Content="C" Style="{StaticResource MahApps.Styles.Button.Circle}" Height="30"
-                    Command="{Binding ButtonClickCommand}" CommandParameter="OpenSettingWindow"/>
+                            Command="{Binding ButtonClickCommand}" CommandParameter="OpenSettingWindow"/>
 
                     <StackPanel Grid.Column="6" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
                         <TextBlock Text="Width : " VerticalAlignment="Center" FontWeight="Black"/>
@@ -73,7 +73,7 @@
                             </i:Interaction.Triggers>
                         </TextBox>
                         <Button Grid.Column="4" Content="Set" VerticalAlignment="Center"
-                        Command="{Binding ButtonClickCommand}" CommandParameter="SetSize"/>
+                                Command="{Binding ButtonClickCommand}" CommandParameter="SetSize"/>
                     </StackPanel>
                 </Grid>
 

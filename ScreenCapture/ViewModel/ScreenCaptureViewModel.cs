@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using ScreenCaptureControls.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,14 +14,14 @@ namespace ScreenCapture.ViewModel
     public class ScreenCaptureViewModel : ViewModelBase
     {
         #region UIVariable
-        private int _windowWidth = 600;
+        private int _windowWidth = 606;
         public int WindowWidth
         {
             get { return _windowWidth; }
             set { Set(ref _windowWidth, value); }
         }
 
-        private int _windowHeight = 600;
+        private int _windowHeight = 508;
         public int WindowHeight
         {
             get { return _windowHeight; }
@@ -48,14 +49,14 @@ namespace ScreenCapture.ViewModel
             set { Set(ref _isSettingOpen, value); }
         }
 
-        private int _captureWidth;
+        private int _captureWidth = 500;
         public int CaptureWidth
         {
             get { return _captureWidth; }
             set { Set(ref _captureWidth, value); }
         }
 
-        private int _captureHeight;
+        private int _captureHeight = 500;
         public int CaptureHeight
         {
             get { return _captureHeight; }
@@ -66,13 +67,25 @@ namespace ScreenCapture.ViewModel
         #region Command
         public RelayCommand<object> ButtonClickCommand { get; private set; }
         public RelayCommand<TextCompositionEventArgs> PreviewTextInputCommand { get; private set; }
+        public RelayCommand<MouseButtonEventArgs> WindowPreviewMouseDoubleClickCommand { get; private set; }
+
         private void InitRelayCommand()
         {
             ButtonClickCommand = new RelayCommand<object>(OnButtonClick);
             PreviewTextInputCommand = new RelayCommand<TextCompositionEventArgs>(OnPreviewTextInput);
+            WindowPreviewMouseDoubleClickCommand = new RelayCommand<MouseButtonEventArgs>(OnWindowPreviewMouseDoubleClick);
         }
 
         #region CommandAction
+        /// <summary>
+        /// 윈도우 타이틀바 더블클릭했을 때 전체화면 안되게끔 처리함
+        /// </summary>
+        /// <param name="e"></param>
+        private void OnWindowPreviewMouseDoubleClick(MouseButtonEventArgs e)
+        {
+            e.Handled = true;
+        }
+
         private void OnButtonClick(object param)
         {
             switch (param.ToString())
@@ -120,8 +133,8 @@ namespace ScreenCapture.ViewModel
         /// </summary>
         private void SetSize()
         {
-            WindowWidth = 600;
-            WindowHeight = 600;
+            WindowWidth = CaptureWidth + 8;
+            WindowHeight = CaptureHeight + 106;
         }
 
         private void OpenSetting()
@@ -137,7 +150,7 @@ namespace ScreenCapture.ViewModel
         #endregion
 
         #region Field
-
+        
         #endregion
 
         public SettingViewModel SettingViewModel { get; set; }

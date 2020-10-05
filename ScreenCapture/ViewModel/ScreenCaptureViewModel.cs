@@ -3,25 +3,28 @@ using GalaSoft.MvvmLight.Command;
 using ScreenCaptureControls.Controls;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 
 namespace ScreenCapture.ViewModel
 {
     public class ScreenCaptureViewModel : ViewModelBase
     {
         #region UIVariable
-        private int _windowWidth = 606;
+        private int _windowWidth = 508;
         public int WindowWidth
         {
             get { return _windowWidth; }
             set { Set(ref _windowWidth, value); }
         }
 
-        private int _windowHeight = 508;
+        private int _windowHeight = 606;
         public int WindowHeight
         {
             get { return _windowHeight; }
@@ -86,25 +89,30 @@ namespace ScreenCapture.ViewModel
             e.Handled = true;
         }
 
+        /// <summary>
+        /// 버튼 클릭 이벤트
+        /// </summary>
+        /// <param name="param"></param>
         private void OnButtonClick(object param)
         {
             switch (param.ToString())
             {
-                case "OpenSetting":
-                    OpenSetting();
-                    break;
-                case "CloseSetting":
-                    CloseSetting();
-                    break;
                 case "SetSize":
                     SetSize();
                     break;
                 case "OpenSettingWindow":
                     OpenSettingWindow();
                     break;
+                case "Capture":
+                    CaptureClick();
+                    break;
             }
         }
 
+        /// <summary>
+        /// 캡처 사이즈 텍스트 박스에 숫자만 입력 받음
+        /// </summary>
+        /// <param name="e"></param>
         private void OnPreviewTextInput(TextCompositionEventArgs e)
         {
             foreach (char c in e.Text)
@@ -117,6 +125,9 @@ namespace ScreenCapture.ViewModel
             }
         }
 
+        /// <summary>
+        /// 세팅창 열기
+        /// </summary>
         private void OpenSettingWindow()
         {
             SettingWindow settingWindow = new SettingWindow() { DataContext = SettingViewModel };
@@ -129,7 +140,7 @@ namespace ScreenCapture.ViewModel
         }
 
         /// <summary>
-        /// 사이즈 세팅
+        /// 윈도우 사이즈 세팅
         /// </summary>
         private void SetSize()
         {
@@ -137,20 +148,15 @@ namespace ScreenCapture.ViewModel
             WindowHeight = CaptureHeight + 106;
         }
 
-        private void OpenSetting()
+        private void CaptureClick()
         {
-            IsSettingOpen = true;
-        }
-
-        private void CloseSetting()
-        {
-            IsSettingOpen = false;
+            CaptureScreen();
         }
         #endregion
         #endregion
 
         #region Field
-        
+
         #endregion
 
         public SettingViewModel SettingViewModel { get; set; }
@@ -160,6 +166,39 @@ namespace ScreenCapture.ViewModel
             InitRelayCommand();
 
             SettingViewModel = new SettingViewModel();
+        }
+
+        private void CaptureScreen()
+        {
+            int captureX = WindowLeft + 4;
+            int captureY = WindowTop + 77;
+
+            BitmapImage ClipImage;
+
+            using (Bitmap bmp = new Bitmap(CaptureWidth, CaptureHeight))
+            {
+                using (Graphics g = Graphics.FromImage(bmp))
+                {
+                    g.CopyFromScreen(captureX, captureY, 0, 0, bmp.Size);
+                    ClipImage = BitmapToImageSource(bmp);
+                    Clipboard.SetImage(ClipImage);
+                }
+            }
+        }
+
+        private static BitmapImage BitmapToImageSource(Bitmap bitmap)
+        {
+            BitmapImage bitmapimage = new BitmapImage();
+            using (MemoryStream memory = new MemoryStream())
+            {
+                bitmap.Save(memory, System.Drawing.Imaging.ImageFormat.Bmp);
+                memory.Position = 0;
+                bitmapimage.BeginInit();
+                bitmapimage.StreamSource = memory;
+                bitmapimage.CacheOption = BitmapCacheOption.OnLoad;
+                bitmapimage.EndInit();
+            }
+            return bitmapimage;
         }
     }
 }

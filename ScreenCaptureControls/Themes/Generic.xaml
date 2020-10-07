@@ -4,5 +4,6 @@
     
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="GetActualSizeGrid.xaml"/>
+        <ResourceDictionary Source="SettingGroupBox.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

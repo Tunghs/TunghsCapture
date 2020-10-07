@@ -13,40 +13,41 @@ namespace ScreenCaptureControls.Controls
         const string PART_Grid = "PART_Grid";
 
         #region Dependency Property
-        public static readonly DependencyProperty ActualWidthProperty
+        public static new readonly DependencyProperty ActualWidthProperty
             = DependencyProperty.Register(nameof(ActualWidth),
                                           typeof(int),
                                           typeof(GetActualSizeGrid),
                                           new PropertyMetadata(0, null));
 
-        public static readonly DependencyProperty ActualHeightProperty
+        public static new readonly DependencyProperty ActualHeightProperty
             = DependencyProperty.Register(nameof(ActualHeight),
                                           typeof(int),
                                           typeof(GetActualSizeGrid),
                                           new PropertyMetadata(0, null));
         #endregion
 
-        #region  Fields
+        #region Fields
         protected Grid grid = null;
         #endregion
 
         #region Properties 
-        public int ActualWidth
+        public new int ActualWidth
         {
-            get { return (int)GetValue(ActualWidthProperty); }
-            set { SetValue(ActualWidthProperty, value); }
+            get => (int)GetValue(ActualWidthProperty);
+            set => SetValue(ActualWidthProperty, value);
         }
-
-        public int ActualHeight
+        
+        public new int ActualHeight
         {
-            get { return (int)GetValue(ActualHeightProperty); }
-            set { SetValue(ActualHeightProperty, value); }
+            get => (int)GetValue(ActualHeightProperty);
+            set => SetValue(ActualHeightProperty, value);
         }
         #endregion
 
         #region Public Mathod
         public override void OnApplyTemplate()
         {
+            
             base.OnApplyTemplate();
             grid = Template.FindName(PART_Grid, this) as Grid;
             if (grid != null)

@@ -62,8 +62,8 @@ namespace ScreenCapture.ViewModel
         private int _captureHeight = 500;
         public int CaptureHeight
         {
-            get { return _captureHeight; }
-            set { Set(ref _captureHeight, value); }
+            get => _captureHeight;
+            set => Set(ref _captureHeight, value);
         }
         #endregion
 

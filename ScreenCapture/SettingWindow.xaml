@@ -5,9 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:Mah="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:View="clr-namespace:ScreenCapture.View"
-        xmlns:local="clr-namespace:ScreenCapture"
         mc:Ignorable="d"
-        Title="Setting Window" Height="600" Width="500" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
+        Title="Setting" Height="600" Width="500" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
 
     <View:SettingView/>
 </Mah:MetroWindow>

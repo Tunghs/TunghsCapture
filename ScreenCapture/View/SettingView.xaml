@@ -8,7 +8,7 @@
              xmlns:local="clr-namespace:ScreenCapture.View"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="500">
-    
+
     <Grid Background="White">
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
@@ -23,17 +23,122 @@
             </Grid.ColumnDefinitions>
 
             <TextBlock Grid.Column="0" Text="Setting Name" FontWeight="Black" FontSize="15" VerticalAlignment="Center"/>
-            <TextBox Grid.Column="1" Height="30" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
-            <Button Grid.Column="2" Height="30" Content="Add" VerticalAlignment="Center"/>
+            <TextBox Grid.Column="1" Height="30" VerticalAlignment="Center" VerticalContentAlignment="Center"
+                     Text="{Binding SettingName}"/>
+            <Button Grid.Column="2" Height="30" Content="Add" VerticalAlignment="Center"
+                    Command="{Binding ButtonClickCommand}" CommandParameter="Add"/>
         </Grid>
-        
-        <ScrollViewer Grid.Row="1" BorderBrush="LightSeaGreen" VerticalScrollBarVisibility="Auto">
-            <StackPanel Margin="5">
-                <Control:SettingGroupBox Command="{Binding ButtonClickCommand}" Margin="5 0 0 0"/>
-                <Control:SettingGroupBox Command="{Binding ButtonClickCommand}"/>
-                <Control:SettingGroupBox Command="{Binding ButtonClickCommand}"/>
-                <Control:SettingGroupBox Command="{Binding ButtonClickCommand}"/>
-            </StackPanel>
-        </ScrollViewer>
+
+        <ItemsControl x:Name="SGItems" ItemsSource="{Binding SGClassCollection}" Grid.Row="1">
+            <ItemsControl.Template>
+                <ControlTemplate>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <ItemsPresenter/>
+                    </ScrollViewer>
+                </ControlTemplate>
+            </ItemsControl.Template>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Margin="5">
+                        <GroupBox>
+                            <GroupBox.Header>
+                                <Grid>
+                                    <TextBlock x:Name="Header" Text="{Binding Header}" 
+                                               FontSize="13" FontWeight="Black" 
+                                               VerticalAlignment="Center"/>
+                                    <Button Width="25" HorizontalAlignment="Right"
+                                            Command="{Binding ElementName=SGItems, Path=DataContext.CollectionItemButtonClickCommand}"
+                                            CommandParameter="{Binding Text, ElementName=Header}"/>
+                                </Grid>
+                            </GroupBox.Header>
+
+                            <Grid Margin="5">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="60"/>
+                                    <RowDefinition Height="30"/>
+                                </Grid.RowDefinitions>
+
+                                <Grid Grid.Row="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="4*"/>
+                                        <ColumnDefinition Width="6*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Grid Grid.Row="0" Grid.Column="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="50"/>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="20"/>
+                                            <ColumnDefinition Width="50"/>
+                                            <ColumnDefinition Width="1*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Grid.Column="0" Text="X : " TextAlignment="Right" FontWeight="Black" VerticalAlignment="Center"/>
+                                        <TextBlock Grid.Column="1" TextAlignment="Right" VerticalAlignment="Center"
+                                                   Text="{Binding PositionX}"/>
+
+                                        <TextBlock Grid.Column="3" Text="Y : " TextAlignment="Right" FontWeight="Black" VerticalAlignment="Center"/>
+                                        <TextBlock Grid.Column="4" TextAlignment="Right" VerticalAlignment="Center"
+                                                   Text="{Binding PositionY}"/>
+                                    </Grid>
+
+                                    <Grid Grid.Row="1" Grid.Column="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="50"/>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="20"/>
+                                            <ColumnDefinition Width="50"/>
+                                            <ColumnDefinition Width="1*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Grid.Column="0" Text="Width : " FontWeight="Black" VerticalAlignment="Center"/>
+                                        <TextBlock Grid.Column="1" TextAlignment="Right" VerticalAlignment="Center"
+                                                   Text="{Binding Width}"/>
+
+                                        <TextBlock Grid.Column="3" Text="Height : " FontWeight="Black" VerticalAlignment="Center"/>
+                                        <TextBlock Grid.Column="4" TextAlignment="Right" VerticalAlignment="Center"
+                                                   Text="{Binding Height}"/>
+                                    </Grid>
+
+                                    <Grid Grid.Row="0" Grid.Column="1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="100"/>
+                                            <ColumnDefinition Width="10"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Grid.Column="0" Text="Shorcut Key" TextAlignment="Right" FontWeight="Bold" VerticalAlignment="Center"/>
+                                        <ComboBox x:Name="PART_ComboBox" Grid.Column="2" VerticalAlignment="Center"/>
+                                    </Grid>
+
+                                    <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" Margin="30 0 0 0">
+                                        <CheckBox x:Name="PART_ModifierCheckBox" Grid.Column="1" Content="Modifier Key" Margin="0 0 10 0"/>
+                                        <CheckBox x:Name="PART_CtrlCheckBox" Grid.Column="1" Content="Ctrl" Margin="0 0 5 0"/>
+                                        <CheckBox x:Name="PART_AltCheckBox" Grid.Column="1" Content="Alt" Margin="0 0 5 0"/>
+                                        <CheckBox x:Name="PART_ShiftCheckBox" Grid.Column="1" Content="Shift"/>
+                                    </StackPanel>
+                                </Grid>
+
+                                <Grid Grid.Row="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="60"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="30"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Grid.Column="0" Text="Save Path" FontWeight="Bold" VerticalAlignment="Center"/>
+                                    <TextBox Grid.Column="1" Text="{Binding SavePath}" VerticalAlignment="Center" IsReadOnly="False"/>
+                                    <Button Grid.Column="2" x:Name="PART_DialogButton" Content="..." VerticalAlignment="Center"/>
+                                </Grid>
+                            </Grid>
+                        </GroupBox>
+                    </StackPanel>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
     </Grid>
 </UserControl>

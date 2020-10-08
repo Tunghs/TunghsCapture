@@ -90,6 +90,7 @@
   <ItemGroup>
     <Compile Include="Controls\GetActualSizeGrid.cs" />
     <Compile Include="Controls\SettingGroupBox.cs" />
+    <Compile Include="Model\SettingInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -16,47 +16,47 @@ namespace ScreenCapture.ViewModel
 {
     public class ScreenCaptureViewModel : ViewModelBase
     {
-        #region UIVariable
+        #region UI Variable
         private int _windowWidth = 508;
         public int WindowWidth
         {
-            get { return _windowWidth; }
-            set { Set(ref _windowWidth, value); }
+            get => _windowWidth; 
+            set => Set(ref _windowWidth, value);
         }
 
         private int _windowHeight = 606;
         public int WindowHeight
         {
-            get { return _windowHeight; }
-            set { Set(ref _windowHeight, value); }
+            get => _windowHeight;
+            set => Set(ref _windowHeight, value);
         }
-        
+
         private int _windowLeft;
         public int WindowLeft
         {
-            get { return _windowLeft; }
-            set { Set(ref _windowLeft, value); }
+            get => _windowLeft;
+            set => Set(ref _windowLeft, value);
         }
         
         private int _windowTop;
         public int WindowTop
         {
-            get { return _windowTop; }
-            set { Set(ref _windowTop, value); }
+            get => _windowTop;
+            set => Set(ref _windowTop, value);
         }
 
         private bool _isSettingOpen = false;
         public bool IsSettingOpen
         {
-            get { return _isSettingOpen; }
-            set { Set(ref _isSettingOpen, value); }
+            get => _isSettingOpen;
+            set => Set(ref _isSettingOpen, value);
         }
 
         private int _captureWidth = 500;
         public int CaptureWidth
         {
-            get { return _captureWidth; }
-            set { Set(ref _captureWidth, value); }
+            get => _captureWidth;
+            set => Set(ref _captureWidth, value);
         }
 
         private int _captureHeight = 500;

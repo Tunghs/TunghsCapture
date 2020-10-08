@@ -132,11 +132,17 @@ namespace ScreenCapture.ViewModel
         {
             SettingWindow settingWindow = new SettingWindow() { DataContext = SettingViewModel };
             settingWindow.Owner = Application.Current.MainWindow;
+            settingWindow.ShowDialog();
 
-            if ((bool)settingWindow.ShowDialog())
-            {
-                // 참일 때 실행
-            }
+            ApplySetting();
+        }
+
+        /// <summary>
+        /// 세팅창 종료 후 설정한 값 적용
+        /// </summary>
+        private void ApplySetting()
+        {
+
         }
 
         /// <summary>

@@ -26,7 +26,7 @@
             <TextBox Grid.Column="1" Height="30" VerticalAlignment="Center" VerticalContentAlignment="Center"
                      Text="{Binding SettingName}"/>
             <Button Grid.Column="2" Height="30" Content="Add" VerticalAlignment="Center"
-                    Command="{Binding ButtonClickCommand}" CommandParameter="Add"/>
+                    Command="{Binding ButtonClickCommand}" CommandParameter="AddSetting"/>
         </Grid>
 
         <ItemsControl x:Name="SGItems" ItemsSource="{Binding SGClassCollection}" Grid.Row="1">

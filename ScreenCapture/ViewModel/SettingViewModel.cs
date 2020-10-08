@@ -46,12 +46,16 @@ namespace ScreenCapture.ViewModel
         {
             switch (param.ToString())
             {
-                case "Add":
+                case "AddSetting":
                     AddSGSettingItem();
                     break;
             }
         }
 
+        /// <summary>
+        /// SGItem 버튼 클릭 이벤트
+        /// </summary>
+        /// <param name="param"></param>
         private void OnCollectionItemButtonClick(object param)
         {
             string header = param.ToString();
@@ -61,7 +65,35 @@ namespace ScreenCapture.ViewModel
 
         private void AddSGSettingItem()
         {
-            SGClassCollection.Add(new EachClassSettingItem() { Header = "Index" + SGClassCollection.Count });
+            if (!CheckSettingName(SettingName))
+            {
+                return;
+            }
+
+            SGClassCollection.Add(new EachClassSettingItem() { Header = SettingName });
+        }
+
+        /// <summary>
+        /// 추가하려는 세팅 항목의 이름 확인
+        /// </summary>
+        /// <param name="settingName"></param>
+        private bool CheckSettingName(string settingName)
+        {
+            // null, 공백 필터링
+            if (string.IsNullOrEmpty(settingName) || string.IsNullOrWhiteSpace(settingName))
+            {
+                return false;
+            }
+            // 공백이면 추가 인덱스로 변경하기
+
+            // 중복 세팅명 필터링
+            if (SGClassCollection.Any(x => x.Header == settingName))
+            {
+                MessageBox.Show("이미 존재하는 이름입니다.");
+                return false;
+            }
+
+            return true;
         }
 
         public SettingViewModel()

@@ -12,6 +12,8 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 
+using ScreenCaptureCore.Util;
+
 namespace ScreenCapture.ViewModel
 {
     public class ScreenCaptureViewModel : ViewModelBase
@@ -132,9 +134,9 @@ namespace ScreenCapture.ViewModel
         {
             SettingWindow settingWindow = new SettingWindow() { DataContext = SettingViewModel };
             settingWindow.Owner = Application.Current.MainWindow;
-            settingWindow.ShowDialog();
+            SettingViewModel.Window = settingWindow;
 
-            ApplySetting();
+            settingWindow.Show();
         }
 
         /// <summary>
@@ -172,6 +174,7 @@ namespace ScreenCapture.ViewModel
             InitRelayCommand();
 
             SettingViewModel = new SettingViewModel();
+            SettingViewModel._SettingAddEvent += new SettingViewModel.SettingAddHandler(SendScreenInfo);
         }
 
         private void CaptureScreen()
@@ -186,25 +189,23 @@ namespace ScreenCapture.ViewModel
                 using (Graphics g = Graphics.FromImage(bmp))
                 {
                     g.CopyFromScreen(captureX, captureY, 0, 0, bmp.Size);
-                    ClipImage = BitmapToImageSource(bmp);
+                    BitmapController bitmapController = new BitmapController();
+                    ClipImage = bitmapController.BitmapToImageSource(bmp);
+
                     Clipboard.SetImage(ClipImage);
                 }
             }
         }
 
-        private static BitmapImage BitmapToImageSource(Bitmap bitmap)
+        /// <summary>
+        /// Setting 창에서 항목 추가시 현재 스크린의 정보를 업데이트해서 전달함
+        /// </summary>
+        private void SendScreenInfo()
         {
-            BitmapImage bitmapimage = new BitmapImage();
-            using (MemoryStream memory = new MemoryStream())
-            {
-                bitmap.Save(memory, System.Drawing.Imaging.ImageFormat.Bmp);
-                memory.Position = 0;
-                bitmapimage.BeginInit();
-                bitmapimage.StreamSource = memory;
-                bitmapimage.CacheOption = BitmapCacheOption.OnLoad;
-                bitmapimage.EndInit();
-            }
-            return bitmapimage;
+            SettingViewModel.Width = CaptureWidth;
+            SettingViewModel.Height = CaptureHeight;
+            SettingViewModel.PositionX = WindowLeft;
+            SettingViewModel.PositionY = WindowTop;
         }
     }
 }

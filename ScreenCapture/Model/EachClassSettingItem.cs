@@ -33,7 +33,7 @@ namespace ScreenCapture.Model
         }
 
         private int _height;
-        public int Heght
+        public int Height
         {
             get => _height;
             set => Set(ref _height, value);

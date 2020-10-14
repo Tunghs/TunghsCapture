@@ -40,8 +40,7 @@ namespace ScreenCapture.ViewModel
             ButtonClickCommand = new RelayCommand<object>(OnButtonClick);
             CollectionItemButtonClickCommand = new RelayCommand<object>(OnCollectionItemButtonClick);
         }
-        #endregion
-
+        #region CommandAction
         private void OnButtonClick(object param)
         {
             switch (param.ToString())
@@ -53,7 +52,7 @@ namespace ScreenCapture.ViewModel
         }
 
         /// <summary>
-        /// SGItem 버튼 클릭 이벤트
+        /// SGItem 삭제 이벤트
         /// </summary>
         /// <param name="param"></param>
         private void OnCollectionItemButtonClick(object param)
@@ -63,6 +62,9 @@ namespace ScreenCapture.ViewModel
             SGClassCollection.Remove(eachClassSettingItem);
         }
 
+        /// <summary>
+        /// 세팅 추가
+        /// </summary>
         private void AddSGSettingItem()
         {
             if (!CheckSettingName(SettingName))
@@ -70,7 +72,20 @@ namespace ScreenCapture.ViewModel
                 return;
             }
 
-            SGClassCollection.Add(new EachClassSettingItem() { Header = SettingName });
+            // Setting Add Button Click Event
+            if (_SettingAddEvent != null)
+            {
+                _SettingAddEvent();
+            }
+
+            SGClassCollection.Add(new EachClassSettingItem()
+            {
+                Header = SettingName,
+                Width = Width,
+                Height = Height,
+                PositionX = PositionX,
+                PositionY = PositionY
+            });
         }
 
         /// <summary>
@@ -89,12 +104,26 @@ namespace ScreenCapture.ViewModel
             // 중복 세팅명 필터링
             if (SGClassCollection.Any(x => x.Header == settingName))
             {
-                MessageBox.Show("이미 존재하는 이름입니다.");
+                MessageBox.Show(Window, "이미 존재하는 이름입니다.", "hi");
                 return false;
             }
-
             return true;
         }
+        #endregion
+        #endregion
+
+        #region Field
+        public Window Window;
+        public int Width, Height, PositionX, PositionY;
+        #endregion
+
+        #region Event
+        public delegate void SettingChangeHandler(List<string> settingNames);
+        public event SettingChangeHandler _SettingChangeEvent;
+
+        public delegate void SettingAddHandler();
+        public event SettingAddHandler _SettingAddEvent;
+        #endregion
 
         public SettingViewModel()
         {

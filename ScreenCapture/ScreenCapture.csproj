@@ -182,6 +182,10 @@
       <Project>{1bd2e8f1-27eb-423d-9bd7-abbbeb43247c}</Project>
       <Name>ScreenCaptureControls</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ScreenCaptureCore\ScreenCaptureCore.csproj">
+      <Project>{5a110ef5-c003-4ddb-8c0a-20f31db4eab0}</Project>
+      <Name>ScreenCaptureCore</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using ScreenCapture.Model;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace ScreenCapture.ViewModel
 {
@@ -34,13 +35,20 @@ namespace ScreenCapture.ViewModel
         #region Command
         public RelayCommand<object> ButtonClickCommand { get; private set; }
         public RelayCommand<object> CollectionItemButtonClickCommand { get; private set; }
+        public RelayCommand<KeyEventArgs> TextBoxKeyDownCommand { get; private set; }
 
         private void InitRelayCommand()
         {
             ButtonClickCommand = new RelayCommand<object>(OnButtonClick);
             CollectionItemButtonClickCommand = new RelayCommand<object>(OnCollectionItemButtonClick);
+            TextBoxKeyDownCommand = new RelayCommand<KeyEventArgs>(OnTextBoxKeyDown);
         }
         #region CommandAction
+
+        /// <summary>
+        /// 버튼 클릭 이벤트
+        /// </summary>
+        /// <param name="param"></param>
         private void OnButtonClick(object param)
         {
             switch (param.ToString())
@@ -48,6 +56,14 @@ namespace ScreenCapture.ViewModel
                 case "AddSetting":
                     AddSGSettingItem();
                     break;
+            }
+        }
+
+        private void OnTextBoxKeyDown(KeyEventArgs e)
+        {
+           if (e.Key == Key.Return)
+            {
+                AddSGSettingItem();
             }
         }
 
@@ -60,32 +76,6 @@ namespace ScreenCapture.ViewModel
             string header = param.ToString();
             var eachClassSettingItem = SGClassCollection.Where(x => x.Header == header).ToList()[0];
             SGClassCollection.Remove(eachClassSettingItem);
-        }
-
-        /// <summary>
-        /// 세팅 추가
-        /// </summary>
-        private void AddSGSettingItem()
-        {
-            if (!CheckSettingName(SettingName))
-            {
-                return;
-            }
-
-            // Setting Add Button Click Event
-            if (_SettingAddEvent != null)
-            {
-                _SettingAddEvent();
-            }
-
-            SGClassCollection.Add(new EachClassSettingItem()
-            {
-                Header = SettingName,
-                Width = Width,
-                Height = Height,
-                PositionX = PositionX,
-                PositionY = PositionY
-            });
         }
 
         /// <summary>
@@ -128,6 +118,32 @@ namespace ScreenCapture.ViewModel
         public SettingViewModel()
         {
             InitRelayCommand();
+        }
+
+        /// <summary>
+        /// 세팅 추가
+        /// </summary>
+        private void AddSGSettingItem()
+        {
+            if (!CheckSettingName(SettingName))
+            {
+                return;
+            }
+
+            // Setting Add Button Click Event
+            if (_SettingAddEvent != null)
+            {
+                _SettingAddEvent();
+            }
+
+            SGClassCollection.Add(new EachClassSettingItem()
+            {
+                Header = SettingName,
+                Width = Width,
+                Height = Height,
+                PositionX = PositionX,
+                PositionY = PositionY
+            });
         }
     }
 }

@@ -4,5 +4,6 @@
     
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="GetActualSizeGrid.xaml"/>
+        <ResourceDictionary Source="ShortcutKeyGrid.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

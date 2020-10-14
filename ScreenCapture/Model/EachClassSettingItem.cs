@@ -1,4 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
+using System.Collections.Generic;
+using System.Windows.Documents;
+using System.Windows.Input;
 
 namespace ScreenCapture.Model
 {
@@ -44,6 +47,13 @@ namespace ScreenCapture.Model
         {
             get => _savePath;
             set => Set(ref _savePath, value);
+        }
+
+        private List<Key> _shortcutKeyList = new List<Key>();
+        public List<Key> ShortcutKeyList
+        {
+            get => _shortcutKeyList;
+            set => Set(ref _shortcutKeyList, value);
         }
     }
 }

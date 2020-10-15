@@ -74,6 +74,10 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Themes\FilePathTextBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -88,6 +92,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\FilePathTextBox.cs" />
     <Compile Include="Controls\GetActualSizeGrid.cs" />
     <Compile Include="Controls\ShortcutKeyGrid.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

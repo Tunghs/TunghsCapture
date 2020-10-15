@@ -9,13 +9,15 @@ using System.Windows;
 using ScreenCapture.Model;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using System.ComponentModel;
 
 namespace ScreenCapture.ViewModel
 {
     public class SettingViewModel : ViewModelBase
     {
         #region UI Variable
-        public ObservableCollection<EachClassSettingItem> SGClassCollection { get; set; } = new ObservableCollection<EachClassSettingItem>();
+        public ObservableCollection<EachClassSettingItem> SGClassCollection { get; set; } 
+            = new ObservableCollection<EachClassSettingItem>();
 
         private string _settingName;
         public string SettingName
@@ -46,6 +48,19 @@ namespace ScreenCapture.ViewModel
         #region CommandAction
 
         /// <summary>
+        /// 창 종료시 변경 내역 업데이트 이벤트 발생
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Closing(object sender, CancelEventArgs e)
+        {
+            if (_SettingChangeEvent != null)
+            {
+                _SettingChangeEvent(new List<EachClassSettingItem>(SGClassCollection));
+            }
+        }
+
+        /// <summary>
         /// 버튼 클릭 이벤트
         /// </summary>
         /// <param name="param"></param>
@@ -61,7 +76,7 @@ namespace ScreenCapture.ViewModel
 
         private void OnTextBoxKeyDown(KeyEventArgs e)
         {
-           if (e.Key == Key.Return)
+            if (e.Key == Key.Return)
             {
                 AddSGSettingItem();
             }
@@ -77,38 +92,15 @@ namespace ScreenCapture.ViewModel
             var eachClassSettingItem = SGClassCollection.Where(x => x.Header == header).ToList()[0];
             SGClassCollection.Remove(eachClassSettingItem);
         }
-
-        /// <summary>
-        /// 추가하려는 세팅 항목의 이름 확인
-        /// </summary>
-        /// <param name="settingName"></param>
-        private bool CheckSettingName(string settingName)
-        {
-            // null, 공백 필터링
-            if (string.IsNullOrEmpty(settingName) || string.IsNullOrWhiteSpace(settingName))
-            {
-                return false;
-            }
-            // 공백이면 추가 인덱스로 변경하기
-
-            // 중복 세팅명 필터링
-            if (SGClassCollection.Any(x => x.Header == settingName))
-            {
-                MessageBox.Show(Window, "이미 존재하는 이름입니다.", "hi");
-                return false;
-            }
-            return true;
-        }
         #endregion
         #endregion
 
         #region Field
-        public Window Window;
         public int Width, Height, PositionX, PositionY;
         #endregion
 
         #region Event
-        public delegate void SettingChangeHandler(List<string> settingNames);
+        public delegate void SettingChangeHandler(List<EachClassSettingItem> settingNames);
         public event SettingChangeHandler _SettingChangeEvent;
 
         public delegate void SettingAddHandler();
@@ -125,9 +117,15 @@ namespace ScreenCapture.ViewModel
         /// </summary>
         private void AddSGSettingItem()
         {
-            if (!CheckSettingName(SettingName))
+            string header = SettingName;
+            if (SGClassCollection.Any(x => x.Header == header))
             {
+                MessageBox.Show("이미 존재하는 이름입니다.", "세팅명 중복");
                 return;
+            }
+            else if (string.IsNullOrEmpty(header) || string.IsNullOrWhiteSpace(header))
+            {
+                header = $"New Setting";
             }
 
             // Setting Add Button Click Event
@@ -135,10 +133,10 @@ namespace ScreenCapture.ViewModel
             {
                 _SettingAddEvent();
             }
-
+            
             SGClassCollection.Add(new EachClassSettingItem()
             {
-                Header = SettingName,
+                Header = header,
                 Width = Width,
                 Height = Height,
                 PositionX = PositionX,

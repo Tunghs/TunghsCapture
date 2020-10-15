@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 
 using ScreenCaptureCore.Util;
+using ScreenCapture.Model;
 
 namespace ScreenCapture.ViewModel
 {
@@ -66,6 +67,13 @@ namespace ScreenCapture.ViewModel
         {
             get => _captureHeight;
             set => Set(ref _captureHeight, value);
+        }
+
+        private List<string> _settings = new List<string>();
+        public List<string> Settings
+        {
+            get => _settings;
+            set => Set(ref _settings, value);
         }
         #endregion
 
@@ -134,7 +142,6 @@ namespace ScreenCapture.ViewModel
         {
             SettingWindow settingWindow = new SettingWindow() { DataContext = SettingViewModel };
             settingWindow.Owner = Application.Current.MainWindow;
-            SettingViewModel.Window = settingWindow;
 
             settingWindow.Show();
         }
@@ -175,6 +182,7 @@ namespace ScreenCapture.ViewModel
 
             SettingViewModel = new SettingViewModel();
             SettingViewModel._SettingAddEvent += new SettingViewModel.SettingAddHandler(SendScreenInfo);
+            SettingViewModel._SettingChangeEvent += new SettingViewModel.SettingChangeHandler();
         }
 
         private void CaptureScreen()
@@ -206,6 +214,11 @@ namespace ScreenCapture.ViewModel
             SettingViewModel.Height = CaptureHeight;
             SettingViewModel.PositionX = WindowLeft;
             SettingViewModel.PositionY = WindowTop;
+        }
+
+        private void UpdateSetting(List<EachClassSettingItem> settingList)
+        {
+
         }
     }
 }

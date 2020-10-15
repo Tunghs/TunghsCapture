@@ -40,35 +40,37 @@
                     <Button Grid.Column="1" Content="C" Style="{StaticResource MahApps.Styles.Button.Circle}" Height="30"
                             Command="{Binding ButtonClickCommand}" CommandParameter="Capture"/>
 
-                    <ComboBox Grid.Column="3"  VerticalAlignment="Center"/>
+                    <ComboBox Grid.Column="3"  VerticalAlignment="Center" 
+                              ItemsSource="{Binding Settings}"
+                              SelectedItem="{Binding SelectedSetting}"/>
 
                     <Button Grid.Column="4" Content="Set" VerticalAlignment="Center"
-                            Command="{Binding ButtonClickCommand}" CommandParameter="OpenSetting"/>
+                            Command="{Binding ButtonClickCommand}" CommandParameter="SetSetting"/>
                     
                     <Button Grid.Column="5" Content="S" Style="{StaticResource MahApps.Styles.Button.Circle}" Height="30"
                             Command="{Binding ButtonClickCommand}" CommandParameter="OpenSettingWindow"/>
 
                     <StackPanel Grid.Column="6" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
                         <TextBlock Text="Width : " VerticalAlignment="Center" FontWeight="Black"/>
-                        <TextBox Text="{Binding CaptureWidth}" Width="50" Margin="0 0 5 0" >
+                        <TextBox Text="{Binding CaptureWidth, UpdateSourceTrigger=PropertyChanged}" Width="40" Margin="0 0 5 0" >
                             <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="TextChanged">
-                                    <i:InvokeCommandAction Command="{Binding TextChangedCommand}"/>
-                                </i:EventTrigger>
                                 <i:EventTrigger EventName="PreviewTextInput">
                                     <cmd:EventToCommand Command="{Binding PreviewTextInputCommand}" PassEventArgsToCommand="True"/>
+                                </i:EventTrigger>
+                                <i:EventTrigger EventName="PreviewKeyDown">
+                                    <cmd:EventToCommand Command="{Binding TextBoxKeyDownCommand}" PassEventArgsToCommand="True"/>
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </TextBox>
                         <TextBlock Text="X" VerticalAlignment="Center" Margin="0 0 5 0"/>
                         <TextBlock Text="Height : " VerticalAlignment="Center" FontWeight="Black"/>
-                        <TextBox Text="{Binding CaptureHeight}" Width="50">
+                        <TextBox Text="{Binding CaptureHeight, UpdateSourceTrigger=PropertyChanged}" Width="40">
                             <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="TextChanged">
-                                    <i:InvokeCommandAction Command="{Binding TextChangedCommand}"/>
-                                </i:EventTrigger>
                                 <i:EventTrigger EventName="PreviewTextInput">
                                     <cmd:EventToCommand Command="{Binding PreviewTextInputCommand}" PassEventArgsToCommand="True"/>
+                                </i:EventTrigger>
+                                <i:EventTrigger EventName="PreviewKeyDown">
+                                    <cmd:EventToCommand Command="{Binding TextBoxKeyDownCommand}" PassEventArgsToCommand="True"/>
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </TextBox>

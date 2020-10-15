@@ -75,17 +75,27 @@ namespace ScreenCapture.ViewModel
             get => _settings;
             set => Set(ref _settings, value);
         }
+
+        private string _selectedSetting;
+        public string SelectedSetting
+        {
+            get => _selectedSetting;
+            set => Set(ref _selectedSetting, value);
+        }
+
         #endregion
 
         #region Command
         public RelayCommand<object> ButtonClickCommand { get; private set; }
         public RelayCommand<TextCompositionEventArgs> PreviewTextInputCommand { get; private set; }
+        public RelayCommand<KeyEventArgs> TextBoxKeyDownCommand { get; private set; }
         public RelayCommand<MouseButtonEventArgs> WindowPreviewMouseDoubleClickCommand { get; private set; }
 
         private void InitRelayCommand()
         {
             ButtonClickCommand = new RelayCommand<object>(OnButtonClick);
             PreviewTextInputCommand = new RelayCommand<TextCompositionEventArgs>(OnPreviewTextInput);
+            TextBoxKeyDownCommand = new RelayCommand<KeyEventArgs>(OnTextBoxKeyDown);
             WindowPreviewMouseDoubleClickCommand = new RelayCommand<MouseButtonEventArgs>(OnWindowPreviewMouseDoubleClick);
         }
 
@@ -99,6 +109,14 @@ namespace ScreenCapture.ViewModel
             e.Handled = true;
         }
 
+        private void OnTextBoxKeyDown(KeyEventArgs e)
+        {
+            if (e.Key == Key.Return)
+            {
+                SetSize();
+            }
+        }
+
         /// <summary>
         /// 버튼 클릭 이벤트
         /// </summary>
@@ -109,6 +127,9 @@ namespace ScreenCapture.ViewModel
             {
                 case "SetSize":
                     SetSize();
+                    break;
+                case "SetSetting":
+                    SetSetting();
                     break;
                 case "OpenSettingWindow":
                     OpenSettingWindow();
@@ -147,20 +168,26 @@ namespace ScreenCapture.ViewModel
         }
 
         /// <summary>
-        /// 세팅창 종료 후 설정한 값 적용
-        /// </summary>
-        private void ApplySetting()
-        {
-
-        }
-
-        /// <summary>
         /// 윈도우 사이즈 세팅
         /// </summary>
         private void SetSize()
         {
             WindowWidth = CaptureWidth + 8;
             WindowHeight = CaptureHeight + 106;
+        }
+
+        private void SetSetting()
+        {
+            foreach (var SGClass in SettingViewModel.SGClassCollection)
+            {
+                if (SGClass.Header == SelectedSetting)
+                {
+                    SGClass.Width = CaptureWidth;
+                    SGClass.Height = CaptureHeight;
+                    SGClass.PositionX = WindowLeft;
+                    SGClass.PositionY = WindowTop;
+                }
+            }
         }
 
         private void CaptureClick()
@@ -173,7 +200,7 @@ namespace ScreenCapture.ViewModel
         #region Field
 
         #endregion
-
+        
         public SettingViewModel SettingViewModel { get; set; }
 
         public ScreenCaptureViewModel()
@@ -182,7 +209,7 @@ namespace ScreenCapture.ViewModel
 
             SettingViewModel = new SettingViewModel();
             SettingViewModel._SettingAddEvent += new SettingViewModel.SettingAddHandler(SendScreenInfo);
-            SettingViewModel._SettingChangeEvent += new SettingViewModel.SettingChangeHandler();
+            SettingViewModel._SettingChangeEvent += new SettingViewModel.SettingChangeHandler(ApplySetting);
         }
 
         private void CaptureScreen()
@@ -216,9 +243,12 @@ namespace ScreenCapture.ViewModel
             SettingViewModel.PositionY = WindowTop;
         }
 
-        private void UpdateSetting(List<EachClassSettingItem> settingList)
+        /// <summary>
+        /// 세팅창 종료 후 설정한 값 적용
+        /// </summary>
+        private void ApplySetting(List<string> settingList)
         {
-
+            Settings = settingList;
         }
     }
 }

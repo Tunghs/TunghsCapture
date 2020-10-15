@@ -38,12 +38,14 @@ namespace ScreenCapture.ViewModel
         public RelayCommand<object> ButtonClickCommand { get; private set; }
         public RelayCommand<object> CollectionItemButtonClickCommand { get; private set; }
         public RelayCommand<KeyEventArgs> TextBoxKeyDownCommand { get; private set; }
+        public RelayCommand<CancelEventArgs> ClosingCommand { get; private set; }
 
         private void InitRelayCommand()
         {
             ButtonClickCommand = new RelayCommand<object>(OnButtonClick);
             CollectionItemButtonClickCommand = new RelayCommand<object>(OnCollectionItemButtonClick);
             TextBoxKeyDownCommand = new RelayCommand<KeyEventArgs>(OnTextBoxKeyDown);
+            ClosingCommand = new RelayCommand<CancelEventArgs>(Closing);
         }
         #region CommandAction
 
@@ -52,11 +54,11 @@ namespace ScreenCapture.ViewModel
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Closing(object sender, CancelEventArgs e)
+        private void Closing(CancelEventArgs e)
         {
             if (_SettingChangeEvent != null)
             {
-                _SettingChangeEvent(new List<EachClassSettingItem>(SGClassCollection));
+                _SettingChangeEvent(SGClassCollection.Select(x => x.Header).ToList());
             }
         }
 
@@ -100,7 +102,7 @@ namespace ScreenCapture.ViewModel
         #endregion
 
         #region Event
-        public delegate void SettingChangeHandler(List<EachClassSettingItem> settingNames);
+        public delegate void SettingChangeHandler(List<string> settingNames);
         public event SettingChangeHandler _SettingChangeEvent;
 
         public delegate void SettingAddHandler();
@@ -142,6 +144,8 @@ namespace ScreenCapture.ViewModel
                 PositionX = PositionX,
                 PositionY = PositionY
             });
+
+            SettingName = string.Empty;
         }
     }
 }

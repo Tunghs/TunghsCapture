@@ -19,18 +19,18 @@ namespace ScreenCapture.ViewModel
         public ObservableCollection<EachClassSettingItem> SGClassCollection { get; set; } 
             = new ObservableCollection<EachClassSettingItem>();
 
-        private string _settingName;
+        private string _SettingName;
         public string SettingName
         {
-            get => _settingName;
-            set => Set(ref _settingName, value);
+            get => _SettingName;
+            set => Set(ref _SettingName, value);
         }
 
-        private string _settingPath;
+        private string _SettingPath;
         public string SettingPath
         {
-            get => _settingPath;
-            set => Set(ref _settingPath, value);
+            get => _SettingPath;
+            set => Set(ref _SettingPath, value);
         }
         #endregion
 
@@ -76,6 +76,10 @@ namespace ScreenCapture.ViewModel
             }
         }
 
+        /// <summary>
+        /// 텍스트 박스 키다운 이벤트
+        /// </summary>
+        /// <param name="e"></param>
         private void OnTextBoxKeyDown(KeyEventArgs e)
         {
             if (e.Key == Key.Return)
@@ -85,7 +89,7 @@ namespace ScreenCapture.ViewModel
         }
 
         /// <summary>
-        /// SGItem 삭제 이벤트
+        /// 세팅 아이템 삭제 이벤트
         /// </summary>
         /// <param name="param"></param>
         private void OnCollectionItemButtonClick(object param)
@@ -119,6 +123,12 @@ namespace ScreenCapture.ViewModel
         /// </summary>
         private void AddSGSettingItem()
         {
+            if (SGClassCollection.Count == 5)
+            {
+                MessageBox.Show("설정할 수 있는 세팅의 최대 개수는 5개 입니다. 추가를 하시려면 세팅을 삭제하시거나 변경하세요.", "세팅명 중복");
+                return;
+            }
+
             string header = SettingName;
             if (SGClassCollection.Any(x => x.Header == header))
             {

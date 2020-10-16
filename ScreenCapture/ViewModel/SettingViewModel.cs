@@ -10,6 +10,10 @@ using ScreenCapture.Model;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using System.ComponentModel;
+using System.Runtime.InteropServices.WindowsRuntime;
+using System.Windows.Media.Imaging;
+using System.Drawing;
+using ScreenCaptureCore.Util;
 
 namespace ScreenCapture.ViewModel
 {
@@ -97,6 +101,11 @@ namespace ScreenCapture.ViewModel
             string header = param.ToString();
             var eachClassSettingItem = SGClassCollection.Where(x => x.Header == header).ToList()[0];
             SGClassCollection.Remove(eachClassSettingItem);
+
+            if (_SettingChangeEvent != null)
+            {
+                _SettingChangeEvent(SGClassCollection.Select(x => x.Header).ToList());
+            }
         }
         #endregion
         #endregion
@@ -156,6 +165,36 @@ namespace ScreenCapture.ViewModel
             });
 
             SettingName = string.Empty;
+
+            if (_SettingChangeEvent != null)
+            {
+                _SettingChangeEvent(SGClassCollection.Select(x => x.Header).ToList());
+            }
+        }
+
+        public void GetSavePathFromSetting()
+        {
+            foreach (var classItem in SGClassCollection)
+            {
+                List<Key> keyList = classItem.ShortcutKeyList;
+
+                if (keyList.All(x => Keyboard.IsKeyDown(x)))
+                {
+                    BitmapImage ClipImage;
+                    using (Bitmap bmp = new Bitmap(classItem.Width, classItem.Height))
+                    {
+                        using (Graphics g = Graphics.FromImage(bmp))
+                        {
+                            g.CopyFromScreen(classItem.PositionX, classItem.PositionY, 0, 0, bmp.Size);
+                            BitmapController bitmapController = new BitmapController();
+                            ClipImage = bitmapController.BitmapToImageSource(bmp);
+
+                            Clipboard.SetImage(ClipImage);
+                        }
+                    }
+                    break;
+                }
+            }
         }
     }
 }

@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 
 using ScreenCaptureCore.Util;
 using ScreenCapture.Model;
+using System.Diagnostics;
 
 namespace ScreenCapture.ViewModel
 {
@@ -83,7 +84,7 @@ namespace ScreenCapture.ViewModel
             set => Set(ref _SelectedSetting, value);
         }
 
-        private bool _IsEnableSettingBtn;
+        private bool _IsEnableSettingBtn = true;
         public bool IsEnableSettingBtn
         {
             get => _IsEnableSettingBtn;
@@ -95,18 +96,48 @@ namespace ScreenCapture.ViewModel
         public RelayCommand<object> ButtonClickCommand { get; private set; }
         public RelayCommand<TextCompositionEventArgs> PreviewTextInputCommand { get; private set; }
         public RelayCommand<KeyEventArgs> TextBoxKeyDownCommand { get; private set; }
+        public RelayCommand<KeyEventArgs> WindowPreviewKeyDownCommand { get; private set; }
         public RelayCommand<MouseButtonEventArgs> WindowPreviewMouseDoubleClickCommand { get; private set; }
+        public RelayCommand<object> ToggledCommand { get; private set; }
+
 
         private void InitRelayCommand()
         {
             ButtonClickCommand = new RelayCommand<object>(OnButtonClick);
             PreviewTextInputCommand = new RelayCommand<TextCompositionEventArgs>(OnPreviewTextInput);
             TextBoxKeyDownCommand = new RelayCommand<KeyEventArgs>(OnTextBoxKeyDown);
+            WindowPreviewKeyDownCommand = new RelayCommand<KeyEventArgs>(WindowPreviewKeyDown);
             WindowPreviewMouseDoubleClickCommand = new RelayCommand<MouseButtonEventArgs>(OnWindowPreviewMouseDoubleClick);
-
+            ToggledCommand = new RelayCommand<object>(OnToggled);
         }
 
         #region CommandAction
+
+        /// <summary>
+        /// 윈도우 키 입력 이벤트
+        /// </summary>
+        /// <param name="e"></param>
+        private void WindowPreviewKeyDown(KeyEventArgs e)
+        {
+            switch (e.Key)
+            {
+                case Key.C:
+                    CaptureScreen();
+                    break;
+                case Key.O:
+                    OpenSettingWindow();
+                    break;
+                case Key.S:
+                    break;
+                
+            }
+
+            SettingViewModel.GetSavePathFromSetting();
+
+
+            // save 
+        }
+
         /// <summary>
         /// 윈도우 타이틀바 더블클릭했을 때 전체화면 안되게끔 처리함
         /// </summary>
@@ -122,6 +153,15 @@ namespace ScreenCapture.ViewModel
             {
                 SetSize();
             }
+        }
+
+        /// <summary>
+        /// Label 토글 스위치
+        /// </summary>
+        /// <param name="param"></param>
+        private void OnToggled(object param)
+        {
+            _IsSaveClipboard = (_IsSaveClipboard) ? false : true;
         }
 
         /// <summary>
@@ -170,8 +210,9 @@ namespace ScreenCapture.ViewModel
         {
             SettingWindow settingWindow = new SettingWindow() { DataContext = SettingViewModel };
             settingWindow.Owner = Application.Current.MainWindow;
-
             settingWindow.Show();
+
+            IsEnableSettingBtn = false;
         }
 
         /// <summary>
@@ -205,7 +246,7 @@ namespace ScreenCapture.ViewModel
         #endregion
 
         #region Field
-
+        private bool _IsSaveClipboard = false;
         #endregion
         
         public SettingViewModel SettingViewModel { get; set; }
@@ -219,13 +260,15 @@ namespace ScreenCapture.ViewModel
             SettingViewModel._SettingChangeEvent += new SettingViewModel.SettingChangeHandler(ApplySetting);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void CaptureScreen()
         {
             int captureX = WindowLeft + 4;
             int captureY = WindowTop + 77;
 
             BitmapImage ClipImage;
-
             using (Bitmap bmp = new Bitmap(CaptureWidth, CaptureHeight))
             {
                 using (Graphics g = Graphics.FromImage(bmp))
@@ -237,6 +280,11 @@ namespace ScreenCapture.ViewModel
                     Clipboard.SetImage(ClipImage);
                 }
             }
+        }
+
+        private void CaptureClipboard()
+        {
+
         }
 
         /// <summary>
@@ -256,6 +304,7 @@ namespace ScreenCapture.ViewModel
         private void ApplySetting(List<string> settingList)
         {
             Settings = settingList;
+            IsEnableSettingBtn = true;
         }
     }
 }

@@ -8,5 +8,10 @@ namespace ScreenCapture
         {
             InitializeComponent();
         }
+
+        private void MetroWindow_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            DragMove();
+        }
     }
 }

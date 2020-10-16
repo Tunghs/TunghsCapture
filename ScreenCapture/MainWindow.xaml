@@ -20,13 +20,18 @@
         WindowTitleBrush="LightSeaGreen" 
         BorderBrush="LightSeaGreen" 
         WindowStyle="None"
+        ShowTitleBar="False"
         ResizeMode="CanResizeWithGrip"
         WindowStartupLocation="CenterScreen"
-        ShowMaxRestoreButton="False">
+        ShowMaxRestoreButton="False"
+        MouseLeftButtonDown="MetroWindow_MouseLeftButtonDown">
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="PreviewMouseDoubleClick">
             <cmd:EventToCommand Command="{Binding WindowPreviewMouseDoubleClickCommand}" PassEventArgsToCommand="True"/>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="PreviewKeyDown">
+            <cmd:EventToCommand Command="{Binding WindowPreviewKeyDownCommand}" PassEventArgsToCommand="True"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
 

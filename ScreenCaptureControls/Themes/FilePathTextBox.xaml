@@ -2,11 +2,21 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:Controls="clr-namespace:ScreenCaptureControls.Controls" >
 
-    <Style TargetType="{x:Type Controls:GetActualSizeGrid}">
+    <Style TargetType="{x:Type Controls:FilePathTextBox}">
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Controls:GetActualSizeGrid}">
-                    <Grid x:Name="PART_Grid"/>
+                <ControlTemplate TargetType="{x:Type Controls:FilePathTextBox}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="60"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="30"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0" Text="Save Path" FontWeight="Bold" VerticalAlignment="Center"/>
+                        <TextBox Grid.Column="1" Text="{TemplateBinding FilePath}" VerticalAlignment="Center" IsReadOnly="True"/>
+                        <Button Grid.Column="2" x:Name="PART_Button" Content="..." VerticalAlignment="Center"/>
+                    </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

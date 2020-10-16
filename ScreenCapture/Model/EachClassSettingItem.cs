@@ -7,53 +7,53 @@ namespace ScreenCapture.Model
 {
     public class EachClassSettingItem : ObservableObject
     {
-        private string _header;
+        private string _Header;
         public string Header
         {
-            get => _header;
-            set => Set(ref _header, value);
+            get => _Header;
+            set => Set(ref _Header, value);
         }
 
-        private int _positionX;
+        private int _PositionX;
         public int PositionX
         {
-            get => _positionX;
-            set => Set(ref _positionX, value);
+            get => _PositionX;
+            set => Set(ref _PositionX, value);
         }
 
-        private int _positionY;
+        private int _PositionY;
         public int PositionY
         {
-            get => _positionY;
-            set => Set(ref _positionY, value);
+            get => _PositionY;
+            set => Set(ref _PositionY, value);
         }
 
-        private int _width;
+        private int _Width;
         public int Width
         {
-            get => _width;
-            set => Set(ref _width, value);
+            get => _Width;
+            set => Set(ref _Width, value);
         }
 
-        private int _height;
+        private int _Height;
         public int Height
         {
-            get => _height;
-            set => Set(ref _height, value);
+            get => _Height;
+            set => Set(ref _Height, value);
         }
 
-        private string _savePath;
+        private string _SavePath;
         public string SavePath
         {
-            get => _savePath;
-            set => Set(ref _savePath, value);
+            get => _SavePath;
+            set => Set(ref _SavePath, value);
         }
 
-        private List<Key> _shortcutKeyList = new List<Key>();
+        private List<Key> _ShortcutKeyList = new List<Key>();
         public List<Key> ShortcutKeyList
         {
-            get => _shortcutKeyList;
-            set => Set(ref _shortcutKeyList, value);
+            get => _ShortcutKeyList;
+            set => Set(ref _ShortcutKeyList, value);
         }
     }
 }

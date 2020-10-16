@@ -20,69 +20,75 @@ namespace ScreenCapture.ViewModel
     public class ScreenCaptureViewModel : ViewModelBase
     {
         #region UI Variable
-        private int _windowWidth = 508;
+        private int _WindowWidth = 508;
         public int WindowWidth
         {
-            get => _windowWidth; 
-            set => Set(ref _windowWidth, value);
+            get => _WindowWidth; 
+            set => Set(ref _WindowWidth, value);
         }
 
-        private int _windowHeight = 606;
+        private int _WindowHeight = 606;
         public int WindowHeight
         {
-            get => _windowHeight;
-            set => Set(ref _windowHeight, value);
+            get => _WindowHeight;
+            set => Set(ref _WindowHeight, value);
         }
 
-        private int _windowLeft;
+        private int _WindowLeft;
         public int WindowLeft
         {
-            get => _windowLeft;
-            set => Set(ref _windowLeft, value);
+            get => _WindowLeft;
+            set => Set(ref _WindowLeft, value);
         }
         
-        private int _windowTop;
+        private int _WindowTop;
         public int WindowTop
         {
-            get => _windowTop;
-            set => Set(ref _windowTop, value);
+            get => _WindowTop;
+            set => Set(ref _WindowTop, value);
         }
 
-        private bool _isSettingOpen = false;
+        private bool _IsSettingOpen = false;
         public bool IsSettingOpen
         {
-            get => _isSettingOpen;
-            set => Set(ref _isSettingOpen, value);
+            get => _IsSettingOpen;
+            set => Set(ref _IsSettingOpen, value);
         }
 
-        private int _captureWidth = 500;
+        private int _CaptureWidth = 500;
         public int CaptureWidth
         {
-            get => _captureWidth;
-            set => Set(ref _captureWidth, value);
+            get => _CaptureWidth;
+            set => Set(ref _CaptureWidth, value);
         }
 
-        private int _captureHeight = 500;
+        private int _CaptureHeight = 500;
         public int CaptureHeight
         {
-            get => _captureHeight;
-            set => Set(ref _captureHeight, value);
+            get => _CaptureHeight;
+            set => Set(ref _CaptureHeight, value);
         }
 
-        private List<string> _settings = new List<string>();
+        private List<string> _Settings = new List<string>();
         public List<string> Settings
         {
-            get => _settings;
-            set => Set(ref _settings, value);
+            get => _Settings;
+            set => Set(ref _Settings, value);
         }
 
-        private string _selectedSetting;
+        private string _SelectedSetting;
         public string SelectedSetting
         {
-            get => _selectedSetting;
-            set => Set(ref _selectedSetting, value);
+            get => _SelectedSetting;
+            set => Set(ref _SelectedSetting, value);
         }
 
+        private bool _IsEnableSettingBtn;
+        public bool IsEnableSettingBtn
+        {
+            get => _IsEnableSettingBtn;
+            set => Set(ref _IsEnableSettingBtn, value);
+        }
         #endregion
 
         #region Command
@@ -97,6 +103,7 @@ namespace ScreenCapture.ViewModel
             PreviewTextInputCommand = new RelayCommand<TextCompositionEventArgs>(OnPreviewTextInput);
             TextBoxKeyDownCommand = new RelayCommand<KeyEventArgs>(OnTextBoxKeyDown);
             WindowPreviewMouseDoubleClickCommand = new RelayCommand<MouseButtonEventArgs>(OnWindowPreviewMouseDoubleClick);
+
         }
 
         #region CommandAction

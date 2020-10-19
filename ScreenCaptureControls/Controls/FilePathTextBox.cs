@@ -35,6 +35,15 @@ namespace ScreenCaptureControls.Controls
                                           typeof(string),
                                           typeof(FilePathTextBox),
                                           new PropertyMetadata(null, null));
+
+        /// <summary>
+        /// Delete button Command
+        /// </summary>
+        public static readonly DependencyProperty CommandProperty
+            = DependencyProperty.Register(nameof(Command),
+                                          typeof(ICommand),
+                                          typeof(FilePathTextBox),
+                                          new UIPropertyMetadata(null));
         #endregion
 
         #region  Fields
@@ -53,6 +62,12 @@ namespace ScreenCaptureControls.Controls
         {
             get { return (string)GetValue(InitPathProperty); }
             set { SetValue(InitPathProperty, value); }
+        }
+
+        public ICommand Command
+        {
+            get => (ICommand)GetValue(CommandProperty);
+            set => SetValue(CommandProperty, value);
         }
         #endregion
 

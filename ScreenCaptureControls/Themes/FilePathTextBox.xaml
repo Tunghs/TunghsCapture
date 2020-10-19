@@ -15,7 +15,8 @@
 
                         <TextBlock Grid.Column="0" Text="Save Path" FontWeight="Bold" VerticalAlignment="Center"/>
                         <TextBox Grid.Column="1" Text="{TemplateBinding FilePath}" VerticalAlignment="Center" IsReadOnly="True"/>
-                        <Button Grid.Column="2" x:Name="PART_Button" Content="..." VerticalAlignment="Center"/>
+                        <Button Grid.Column="2" x:Name="PART_Button" Content="..." VerticalAlignment="Center"
+                                Command="{TemplateBinding Command}"/>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

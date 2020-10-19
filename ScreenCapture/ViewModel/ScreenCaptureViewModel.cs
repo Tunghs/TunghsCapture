@@ -11,10 +11,11 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
-
-using ScreenCaptureCore.Util;
+using ScreenCapture.Util;
 using ScreenCapture.Model;
 using System.Diagnostics;
+using System.Windows.Threading;
+using ScreenCaptureCore.Util;
 
 namespace ScreenCapture.ViewModel
 {
@@ -125,17 +126,13 @@ namespace ScreenCapture.ViewModel
                     CaptureScreen();
                     break;
                 case Key.O:
-                    OpenSettingWindow();
+                    OpenOptionWindow();
                     break;
                 case Key.S:
                     break;
-                
             }
 
-            SettingViewModel.GetSavePathFromSetting();
-
-
-            // save 
+            MatchCaptureSetting();
         }
 
         /// <summary>
@@ -179,7 +176,7 @@ namespace ScreenCapture.ViewModel
                     SetSetting();
                     break;
                 case "OpenSettingWindow":
-                    OpenSettingWindow();
+                    OpenOptionWindow();
                     break;
                 case "Capture":
                     CaptureClick();
@@ -206,11 +203,11 @@ namespace ScreenCapture.ViewModel
         /// <summary>
         /// 세팅창 열기
         /// </summary>
-        private void OpenSettingWindow()
+        private void OpenOptionWindow()
         {
-            SettingWindow settingWindow = new SettingWindow() { DataContext = SettingViewModel };
-            settingWindow.Owner = Application.Current.MainWindow;
-            settingWindow.Show();
+            OptionWindow optionWindow = new OptionWindow() { DataContext = OptionViewModel };
+            optionWindow.Owner = Application.Current.MainWindow;
+            optionWindow.Show();
 
             IsEnableSettingBtn = false;
         }
@@ -226,7 +223,7 @@ namespace ScreenCapture.ViewModel
 
         private void SetSetting()
         {
-            foreach (var SGClass in SettingViewModel.SGClassCollection)
+            foreach (var SGClass in OptionViewModel.CaptureSettingViewModel.SGClassCollection)
             {
                 if (SGClass.Header == SelectedSetting)
                 {
@@ -249,15 +246,25 @@ namespace ScreenCapture.ViewModel
         private bool _IsSaveClipboard = false;
         #endregion
         
-        public SettingViewModel SettingViewModel { get; set; }
+        public OptionViewModel OptionViewModel { get; set; }
+        KeyboardListener KeyboardListener = new KeyboardListener();
 
         public ScreenCaptureViewModel()
         {
             InitRelayCommand();
+            DefaultData.Seed();
 
-            SettingViewModel = new SettingViewModel();
-            SettingViewModel._SettingAddEvent += new SettingViewModel.SettingAddHandler(SendScreenInfo);
-            SettingViewModel._SettingChangeEvent += new SettingViewModel.SettingChangeHandler(ApplySetting);
+            OptionViewModel = new OptionViewModel();
+            OptionViewModel.CaptureSettingViewModel._SettingAddEvent += new CaptureSettingViewModel.SettingAddHandler(SendScreenInfo);
+            OptionViewModel.CaptureSettingViewModel._SettingChangeEvent += new CaptureSettingViewModel.SettingChangeHandler(ApplySetting);
+            KeyboardListener.KeyDown += new RawKeyEventHandler(Listener_KeyDown);
+        }
+
+        public void Listener_KeyDown(object sender, RawKeyEventArgs args)
+        {
+            // MessageBox.Show(args.Key.ToString());
+            // SettingViewModel.GetSavePathFromSetting();
+            // MatchCaptureSetting();
         }
 
         /// <summary>
@@ -268,23 +275,68 @@ namespace ScreenCapture.ViewModel
             int captureX = WindowLeft + 4;
             int captureY = WindowTop + 77;
 
-            BitmapImage ClipImage;
-            using (Bitmap bmp = new Bitmap(CaptureWidth, CaptureHeight))
+            CaptureController captureController = new CaptureController();
+            if (_IsSaveClipboard)
             {
-                using (Graphics g = Graphics.FromImage(bmp))
+                captureController.SaveToClipboard(CaptureWidth, 
+                    CaptureHeight, captureX, captureY);
+            }
+            else
+            {
+                string savePath = OptionViewModel.GeneralSettingViewModel.DefaultSavePath;
+                if (!Directory.Exists(savePath))
                 {
-                    g.CopyFromScreen(captureX, captureY, 0, 0, bmp.Size);
-                    BitmapController bitmapController = new BitmapController();
-                    ClipImage = bitmapController.BitmapToImageSource(bmp);
-
-                    Clipboard.SetImage(ClipImage);
+                    Directory.CreateDirectory(savePath);
                 }
+
+                captureController.SaveToPath(CaptureWidth, 
+                    CaptureHeight, captureX, captureY, savePath);
             }
         }
 
-        private void CaptureClipboard()
+        /// <summary>
+        /// 세팅값과 단축키 매칭해서 해당 세팅값 캡쳐
+        /// </summary>
+        public void MatchCaptureSetting()
         {
+            foreach (var classItem in OptionViewModel.CaptureSettingViewModel.SGClassCollection)
+            {
+                CaptureController captureController = new CaptureController();
+                List<Key> keyList = classItem.ShortcutKeyList;
+                if (keyList.All(x => Keyboard.IsKeyDown(x)))
+                {
+                    if (_IsSaveClipboard)
+                    {
+                        captureController.SaveToClipboard(classItem.Width, 
+                            classItem.Height, classItem.PositionX, classItem.PositionY);
+                    }
+                    else
+                    {
+                        captureController.SaveToPath(classItem.Width, 
+                            classItem.Height, classItem.PositionX, classItem.PositionY, classItem.SavePath);
+                    }    
+                }
+            }  
+        }
 
+        /// <summary>
+        /// delay
+        /// </summary>
+        /// <param name="ms"></param>
+        /// <returns></returns>
+        public DateTime Delay(int ms)
+        {
+            DateTime thisMoment = DateTime.Now;
+            TimeSpan duration = new TimeSpan(0, 0, 0, 0, ms);
+            DateTime afterWards = thisMoment.Add(duration);
+
+            while (afterWards >= thisMoment)
+            {
+                System.Windows.Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(delegate { }));
+                thisMoment = DateTime.Now;
+            }
+
+            return DateTime.Now;
         }
 
         /// <summary>
@@ -292,10 +344,10 @@ namespace ScreenCapture.ViewModel
         /// </summary>
         private void SendScreenInfo()
         {
-            SettingViewModel.Width = CaptureWidth;
-            SettingViewModel.Height = CaptureHeight;
-            SettingViewModel.PositionX = WindowLeft;
-            SettingViewModel.PositionY = WindowTop;
+            OptionViewModel.CaptureSettingViewModel.Width = CaptureWidth;
+            OptionViewModel.CaptureSettingViewModel.Height = CaptureHeight;
+            OptionViewModel.CaptureSettingViewModel.PositionX = WindowLeft + 4;
+            OptionViewModel.CaptureSettingViewModel.PositionY = WindowTop + 77;
         }
 
         /// <summary>

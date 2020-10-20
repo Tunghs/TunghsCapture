@@ -7,6 +7,7 @@
              xmlns:cmd="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Platform"
              xmlns:Mah="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:Control="clr-namespace:ScreenCaptureControls.Controls;assembly=ScreenCaptureControls"
+             xmlns:IconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="500">
     
@@ -55,7 +56,11 @@
                                                VerticalAlignment="Center"/>
                                     <Button Width="25" HorizontalAlignment="Right"
                                             Command="{Binding ElementName=SGItems, Path=DataContext.CollectionItemButtonClickCommand}"
-                                            CommandParameter="{Binding Text, ElementName=Header}"/>
+                                            Style="{StaticResource MahApps.Styles.Button.Circle}"
+                                            Background="Transparent" BorderBrush="Transparent"
+                                            CommandParameter="{Binding Text, ElementName=Header}">
+                                        <IconPacks:Material Kind="Close"/>
+                                    </Button>
                                 </Grid>
                             </GroupBox.Header>
 

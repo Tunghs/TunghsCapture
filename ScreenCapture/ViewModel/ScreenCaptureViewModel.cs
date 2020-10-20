@@ -257,14 +257,15 @@ namespace ScreenCapture.ViewModel
             OptionViewModel = new OptionViewModel();
             OptionViewModel.CaptureSettingViewModel._SettingAddEvent += new CaptureSettingViewModel.SettingAddHandler(SendScreenInfo);
             OptionViewModel.CaptureSettingViewModel._SettingChangeEvent += new CaptureSettingViewModel.SettingChangeHandler(ApplySetting);
-            KeyboardListener.KeyDown += new RawKeyEventHandler(Listener_KeyDown);
+            KeyboardListener.KeyboardDown += new KeyboardDownHandler(KeyboardDown);
         }
 
-        public void Listener_KeyDown(object sender, RawKeyEventArgs args)
+        /// <summary>
+        /// Global keyboard hooking
+        /// </summary>
+        public void KeyboardDown()
         {
-            // MessageBox.Show(args.Key.ToString());
-            // SettingViewModel.GetSavePathFromSetting();
-            // MatchCaptureSetting();
+            MatchCaptureSetting();
         }
 
         /// <summary>

@@ -24,7 +24,9 @@
         ResizeMode="CanResizeWithGrip"
         WindowStartupLocation="CenterScreen"
         ShowMaxRestoreButton="False"
-        MouseLeftButtonDown="MetroWindow_MouseLeftButtonDown">
+        MouseLeftButtonDown="MetroWindow_MouseLeftButtonDown"
+        Loaded="MetroWindow_Loaded"
+        Icon="/Resources/ScreenCapture.ico">
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="PreviewMouseDoubleClick">

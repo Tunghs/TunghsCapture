@@ -7,6 +7,7 @@
              xmlns:cmd="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Platform"
              xmlns:ViewModel="clr-namespace:ScreenCapture.ViewModel"
              xmlns:Mah="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:IconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              xmlns:Controls="clr-namespace:ScreenCaptureControls.Controls;assembly=ScreenCaptureControls"
              mc:Ignorable="d" 
              d:DesignHeight="674" d:DesignWidth="606">
@@ -27,8 +28,17 @@
                 </Grid.RowDefinitions>
 
                 <Button Grid.Row="0" Grid.RowSpan="2" Panel.ZIndex="1" Margin="5 0 0 0"
-                        Content="C"  Width="40" Height="40" HorizontalAlignment="Left" VerticalAlignment="Top"
-                        Command="{Binding ButtonClickCommand}" CommandParameter="Capture"/>
+                        Width="40" Height="40" HorizontalAlignment="Left" VerticalAlignment="Top"
+                        Background="Transparent" BorderBrush="Transparent"
+                        Style="{StaticResource MahApps.Styles.Button.Circle}"
+                        Command="{Binding ButtonClickCommand}" CommandParameter="Capture">
+                    <Grid>
+                        <Image Source="../Resources/Capture.png" />
+                    </Grid>
+                    <Button.ToolTip>
+                        <TextBlock Text="Capture"/>
+                    </Button.ToolTip>
+                </Button>
 
                 <Grid Grid.Row="0" x:Name="TitleGrid" Background="LightSeaGreen">
                     <Grid.ColumnDefinitions>
@@ -93,9 +103,15 @@
                     <Button Grid.Column="4" Content="Set" VerticalAlignment="Center"
                             Command="{Binding ButtonClickCommand}" CommandParameter="SetSetting"/>
 
-                    <Button Grid.Column="5" Content="S" Style="{StaticResource MahApps.Styles.Button.Circle}" Height="30"
-                            IsEnabled="{Binding IsEnableSettingBtn}"
-                            Command="{Binding ButtonClickCommand}" CommandParameter="OpenSettingWindow"/>
+                    <Button Grid.Column="5" Style="{StaticResource MahApps.Styles.Button.Circle}" Height="30"
+                            IsEnabled="{Binding IsEnableSettingBtn}" Foreground="LightSeaGreen"
+                            Background="Transparent" BorderBrush="Transparent"
+                            Command="{Binding ButtonClickCommand}" CommandParameter="OpenSettingWindow">
+                        <IconPacks:Material Kind="Cog"/>
+                        <Button.ToolTip>
+                            <TextBlock Text="Setting"/>
+                        </Button.ToolTip>
+                    </Button>
                 </Grid>
 
                 <Grid Grid.Row="2" Background="LightSeaGreen"/>

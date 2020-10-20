@@ -10,6 +10,7 @@
     
     <Grid>
         <Control:FilePathTextBox Grid.Row="1" FilePath="{Binding DefaultSavePath, Mode=TwoWay}"
+                                 VerticalAlignment="Top"
                                  Command="{Binding ButtonClickCommand}"/>
     </Grid>
 </UserControl>

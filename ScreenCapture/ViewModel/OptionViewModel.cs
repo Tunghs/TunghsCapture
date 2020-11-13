@@ -39,7 +39,7 @@ namespace ScreenCapture.ViewModel
         }
         #endregion
         #endregion
-
+        // 추가할예정
         #region Field
 
         #endregion

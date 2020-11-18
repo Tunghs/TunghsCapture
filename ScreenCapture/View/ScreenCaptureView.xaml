@@ -33,7 +33,7 @@
                         Style="{StaticResource MahApps.Styles.Button.Circle}"
                         Command="{Binding ButtonClickCommand}" CommandParameter="Capture">
                     <Grid>
-                        <Image Source="../Resources/Capture.png" />
+                        <Image Height="40" Width="40" Source="../Resources/Shutter.png" />
                     </Grid>
                     <Button.ToolTip>
                         <TextBlock Text="Capture"/>

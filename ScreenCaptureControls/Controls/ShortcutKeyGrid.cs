@@ -64,32 +64,75 @@ namespace ScreenCaptureControls.Controls
             ctrlCheckBox = Template.FindName(PART_CtrlCheckBox, this) as CheckBox;
             if (ctrlCheckBox != null)
             {
-                ctrlCheckBox.Checked += CtrlCheckBox_Checked;
-                ctrlCheckBox.Unchecked += CtrlCheckBox_UnChecked;
+                ctrlCheckBox.Checked += CheckBox_Checked;
+                ctrlCheckBox.Unchecked += CheckBox_Checked;
             }
             altCheckBox = Template.FindName(PART_AltCheckBox, this) as CheckBox;
             if (altCheckBox != null)
             {
-                altCheckBox.Checked += AltCheckBox_Checked;
-                altCheckBox.Unchecked += AltCheckBox_UnChecked;
+                altCheckBox.Checked += CheckBox_Checked;
+                altCheckBox.Unchecked += CheckBox_Checked;
             }
             shiftCheckBox = Template.FindName(PART_ShiftCheckBox, this) as CheckBox;
             if (shiftCheckBox != null)
             {
-                shiftCheckBox.Checked += ShiftCheckBox_Checked;
-                shiftCheckBox.Unchecked += ShiftCheckBox_UnChecked;
+                shiftCheckBox.Checked += CheckBox_Checked;
+                shiftCheckBox.Unchecked += CheckBox_Checked;
             }
+
             SetComboBoxItem();
+            SetShortcutKeyUI();
         }
         #endregion
 
-        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void SetShortcutKeyUI()
+        {
+            if (ShortcutKeyList.Count == 0)
+            {
+                comboBox.SelectedItem = comboBox.Items[0];
+                return;
+            }
+
+            List<Key> tempKeyList = new List<Key>(ShortcutKeyList);
+            string mainKey = tempKeyList[0].ToString();
+
+            // D0 ~ D9 예외처리
+            int index = comboBox.Items.IndexOf(mainKey + " key");
+            if (index == -1)
+            {
+                index = comboBox.Items.IndexOf(mainKey.Replace("D","") + " key");
+            }
+
+            comboBox.SelectedItem = comboBox.Items[index];
+            if (tempKeyList.Count > 1)
+            {
+                modifierCheckBox.IsChecked = true;
+                if (tempKeyList.Contains(Key.LeftCtrl))
+                {
+                    ctrlCheckBox.IsChecked = true;
+                }
+
+                if (tempKeyList.Contains(Key.LeftAlt))
+                {
+                    altCheckBox.IsChecked = true;
+                }
+
+                if (tempKeyList.Contains(Key.LeftShift))
+                {
+                    shiftCheckBox.IsChecked = true;
+                }
+            }
+        }
+
+        private void UpdateKeyList()
         {
             ShortcutKeyList.Clear();
 
+            // 콤보박스 키 삽입
             KeyConverter keyConverter = new KeyConverter();
             ShortcutKeyList.Add((Key)keyConverter.ConvertFromString(comboBox.SelectedItem.ToString().Replace(" key", "")));
 
+            // 조합키 삽입
             if (!modifierCheckBox.IsChecked.Value)
             {
                 return;
@@ -100,7 +143,7 @@ namespace ScreenCaptureControls.Controls
                 ShortcutKeyList.Add(Key.LeftCtrl);
             }
 
-            if(altCheckBox.IsChecked.Value)
+            if (altCheckBox.IsChecked.Value)
             {
                 ShortcutKeyList.Add(Key.LeftAlt);
             }
@@ -108,7 +151,12 @@ namespace ScreenCaptureControls.Controls
             if (shiftCheckBox.IsChecked.Value)
             {
                 ShortcutKeyList.Add(Key.LeftShift);
-            } 
+            }
+        }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            UpdateKeyList();
         }
 
         private void ModifierCheckBox_Checked(object sender, RoutedEventArgs e)
@@ -125,34 +173,9 @@ namespace ScreenCaptureControls.Controls
             shiftCheckBox.IsEnabled = false;
         }
 
-        private void CtrlCheckBox_Checked(object sender, RoutedEventArgs e)
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            ShortcutKeyList.Add(Key.LeftCtrl);
-        }
-
-        private void CtrlCheckBox_UnChecked(object sender, RoutedEventArgs e)
-        {
-            ShortcutKeyList.Remove(Key.LeftCtrl);
-        }
-
-        private void AltCheckBox_Checked(object sender, RoutedEventArgs e)
-        {
-            ShortcutKeyList.Add(Key.LeftAlt);
-        }
-
-        private void AltCheckBox_UnChecked(object sender, RoutedEventArgs e)
-        {
-            ShortcutKeyList.Remove(Key.LeftAlt);
-        }
-
-        private void ShiftCheckBox_Checked(object sender, RoutedEventArgs e)
-        {
-            ShortcutKeyList.Add(Key.LeftShift);
-        }
-
-        private void ShiftCheckBox_UnChecked(object sender, RoutedEventArgs e)
-        {
-            ShortcutKeyList.Remove(Key.LeftShift);
+            UpdateKeyList();
         }
 
         private void SetComboBoxItem()
@@ -161,8 +184,6 @@ namespace ScreenCaptureControls.Controls
             {
                 comboBox.Items.Add(key + " key");
             }
-
-            comboBox.SelectedItem = comboBox.Items[0];
         }
 
         private List<string> GetShorcutKey()

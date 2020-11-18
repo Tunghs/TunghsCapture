@@ -257,6 +257,7 @@ namespace ScreenCapture.ViewModel
             OptionViewModel = new OptionViewModel();
             OptionViewModel.CaptureSettingViewModel._SettingAddEvent += new CaptureSettingViewModel.SettingAddHandler(SendScreenInfo);
             OptionViewModel.CaptureSettingViewModel._SettingChangeEvent += new CaptureSettingViewModel.SettingChangeHandler(ApplySetting);
+            OptionViewModel.OnClosingAction += new Action(OnClosingOptionWindow);
             KeyboardListener.KeyboardDown += new KeyboardDownHandler(KeyboardDown);
         }
 
@@ -357,6 +358,10 @@ namespace ScreenCapture.ViewModel
         private void ApplySetting(List<string> settingList)
         {
             Settings = settingList;
+        }
+
+        private void OnClosingOptionWindow()
+        {
             IsEnableSettingBtn = true;
         }
     }

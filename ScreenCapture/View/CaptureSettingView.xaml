@@ -58,6 +58,7 @@
                                             Command="{Binding ElementName=SGItems, Path=DataContext.CollectionItemButtonClickCommand}"
                                             Style="{StaticResource MahApps.Styles.Button.Circle}"
                                             Background="Transparent" BorderBrush="Transparent"
+                                            ToolTip="Delete Setting"
                                             CommandParameter="{Binding Text, ElementName=Header}">
                                         <IconPacks:Material Kind="Close"/>
                                     </Button>
@@ -116,7 +117,7 @@
                                                    Text="{Binding Height}"/>
                                     </Grid>
 
-                                    <Control:ShortcutKeyGrid Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" ShortcutKeyList="{Binding ShortcutKeyList,Mode=TwoWay}"/>
+                                    <Control:ShortcutKeyGrid Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" ShortcutKeyList="{Binding ShortcutKeyList, Mode=TwoWay}"/>
                                 </Grid>
 
                                 <Control:FilePathTextBox Grid.Row="1" FilePath="{Binding SavePath, Mode=TwoWay}"/>

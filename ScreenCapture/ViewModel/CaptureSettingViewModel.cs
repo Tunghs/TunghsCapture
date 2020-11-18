@@ -140,7 +140,7 @@ namespace ScreenCapture.ViewModel
             }
             else if (string.IsNullOrEmpty(header) || string.IsNullOrWhiteSpace(header))
             {
-                header = $"New Setting";
+                header = $"New Setting {SGClassCollection.Count}";
             }
 
             // Setting Add Button Click Event

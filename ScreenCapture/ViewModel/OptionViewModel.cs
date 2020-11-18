@@ -36,10 +36,16 @@ namespace ScreenCapture.ViewModel
         private void Closing(CancelEventArgs e)
         {
             CaptureSettingViewModel.SetSettingChange();
+            if (OnClosingAction != null)
+            {
+                OnClosingAction();
+            }
         }
         #endregion
         #endregion
-        // 추가할예정
+
+        public Action OnClosingAction { get; set; }
+
         #region Field
 
         #endregion
